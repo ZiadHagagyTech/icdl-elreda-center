@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>استعلام حجز | ICDL - Ziad Hagagy</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Google Fonts: Cairo for Arabic, Inter for English -->
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;700&family=Inter:wght@600&display=swap" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-hover: #1748b9;
+      --accent: #f59e42;
+      --bg: #f4f7fb;
+      --white: #fff;
+      --gray: #d6e0f0;
+      --text: #23395d;
+      --border: #e0e6ef;
+      --shadow: 0 4px 20px #02204314;
+      --radius: 16px;
+      --transition: 0.2s all;
+    }
+    html, body {
+      font-family: 'Cairo', 'Inter', Arial, sans-serif;
+      background: var(--bg);
+      margin: 0;
+      padding: 0;
+      color: var(--text);
+      min-height: 100vh;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+    .navbar {
+      background: var(--white);
+      box-shadow: var(--shadow);
+      padding: 0 24px;
+      height: 62px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1.5px solid var(--gray);
+    }
+    .navbar .logo {
+      font-family: 'Inter', 'Cairo', Arial, sans-serif;
+      font-size: 1.25em;
+      font-weight: bold;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      letter-spacing: 1px;
+    }
+    .navbar nav {
+      display: flex;
+      gap: 18px;
+    }
+    .navbar nav a {
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 1em;
+      padding: 6px 18px;
+      border-radius: 7px;
+      transition: var(--transition);
+    }
+    .navbar nav a:hover, .navbar nav a.active {
+      background: var(--primary);
+      color: var(--white);
+    }
+    .main-content {
+      max-width: 510px;
+      margin: 44px auto 30px;
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 36px 22px 25px 22px;
+      min-height: 320px;
+      position: relative;
+      overflow: hidden;
+      animation: fadeInUp 0.7s;
+    }
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(40px);}
+      100% { opacity: 1; transform: translateY(0);}
+    }
+    .main-content h2 {
+      text-align: center;
+      color: var(--primary);
+      margin-bottom: 28px;
+      font-size: 2em;
+      letter-spacing: 0.5px;
+      font-family: 'Inter','Cairo',sans-serif;
+      font-weight: 700;
+    }
+    .query-form-block {
+      background: #f9fbff;
+      border: 1.5px solid var(--border);
+      padding: 25px 17px 18px 17px;
+      border-radius: 13px;
+      box-shadow: 0 1px 9px #0220430d;
+      margin-bottom: 18px;
+      position: relative;
+      overflow: hidden;
+      transition: box-shadow 0.18s;
+      margin-top: 24px;
+    }
+    .query-form-block label {
+      font-size: 1.08em;
+      color: var(--primary);
+      margin-bottom: 5px;
+      font-weight: 500;
+      display: block;
+      margin-top: 7px;
+    }
+    .query-form-block input[type="text"] {
+      width: 100%;
+      padding: 13px 10px;
+      margin-bottom: 16px;
+      border: 1.4px solid var(--gray);
+      border-radius: 6px;
+      font-size: 1.09em;
+      background: var(--white);
+      color: var(--text);
+      transition: border 0.19s, box-shadow 0.19s;
+      outline: none;
+      box-shadow: none;
+    }
+    .query-form-block input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px #2563eb1a;
+    }
+    .query-form-block .btn-main {
+      background: var(--primary);
+      color: var(--white);
+      border: none;
+      padding: 13px 35px;
+      border-radius: 8px;
+      font-size: 1.12em;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 2px 10px #1752b911;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      margin-top: 11px;
+      margin-right: 2px;
+    }
+    .query-form-block .btn-main:hover, .query-form-block .btn-main:focus {
+      background: var(--primary-hover);
+      transform: scale(1.03);
+    }
+    .search-result-block {
+      background: #fffbe8;
+      border: 1.5px solid #ffe399;
+      border-radius: 13px;
+      box-shadow: 0 1px 9px #ffecad1a;
+      margin-bottom: 18px;
+      margin-top: 18px;
+      padding: 22px 18px 15px 18px;
+      font-size: 1.12em;
+      letter-spacing: 0.2px;
+      color: #6a5e2b;
+      position: relative;
+      animation: fadeInUp 0.5s;
+    }
+    .search-result-block .header {
+      font-size: 1.18em;
+      font-weight: bold;
+      color: var(--primary);
+      margin-bottom: 9px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .search-result-block .meta {
+      font-size: 0.97em;
+      color: #85711d;
+      margin-bottom: 7px;
+    }
+    .search-result-block .row {
+      margin-bottom: 6px;
+      font-size: 1.08em;
+    }
+    .search-result-block .row strong {
+      color: var(--primary-hover);
+      margin-left: 5px;
+    }
+    .search-result-block .group-label {
+      color: var(--white);
+      background: var(--primary);
+      padding: 1px 9px 2px 9px;
+      border-radius: 8px;
+      font-size: 0.97em;
+      font-weight: bold;
+      margin-right: 4px;
+      margin-left: 4px;
+      display: inline-block;
+    }
+    .not-found-block {
+      background: #fbeaea;
+      color: #b13c1e;
+      border: 1.5px solid #fdb8b8;
+      border-radius: 10px;
+      padding: 20px 8px 17px 8px;
+      text-align: center;
+      font-size: 1.13em;
+      margin-top: 18px;
+      box-shadow: 0 1px 8px #fdb8b822;
+      animation: fadeInUp 0.5s;
+    }
+    .spinner {
+      display: inline-block;
+      width: 33px;
+      height: 33px;
+      border: 3.5px solid #dbe0f0;
+      border-top: 3.5px solid var(--primary);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 18px auto;
+      display: block;
+    }
+    @keyframes spin {
+      100% { transform: rotate(360deg);}
+    }
+    footer {
+      background: var(--primary);
+      color: var(--white);
+      text-align: center;
+      padding: 25px 10px 16px 10px;
+      font-size: 1.08em;
+      letter-spacing: 0.5px;
+      border-top-left-radius: 32px;
+      border-top-right-radius: 32px;
+      box-shadow: 0 -2px 18px #02204310;
+      margin-top: 40px;
+    }
+    footer .footer-links {
+      margin-bottom: 8px;
+      display: flex;
+      gap: 22px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    footer .footer-links a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.18s;
+    }
+    footer .footer-links a:hover { color: #fff; text-decoration: underline;}
+    footer .social {
+      margin-top: 8px;
+      font-size: 1.5em;
+    }
+    footer .social a { color: #fff; margin: 0 4px; transition: color 0.18s;}
+    footer .social a:hover { color: var(--accent);}
+    footer .copy {
+      margin-top: 13px;
+      color: #f7e8c7;
+      font-size: 1.07em;
+      font-family: 'Inter',sans-serif;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+    @media (max-width:900px){
+      .main-content { max-width: 98vw;}
+    }
+    @media (max-width:600px) {
+      .main-content { padding: 9vw 2vw 3vw 2vw; }
+      .navbar { padding: 0 3vw;}
+      .main-content h2 { font-size: 1.18em;}
+      .form-block { padding: 6vw 4vw;}
+      .btns-row { flex-direction: column; gap:9px;}
+      .form-title { font-size: 1em;}
+      .tab-btn { padding: 11px 7vw 8px 7vw; font-size:1em;}
+      .center-message { padding: 28px 5vw;}
+    }
+    @media (max-width:430px){
+      .main-content { padding: 5vw 1vw 3vw 1vw;}
+      .navbar .logo { font-size: 1em;}
+      .footer-links { flex-direction: column; gap:5px;}
+    }
+  </style>
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+</head>
+<body>
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="logo"><i class="bi bi-mortarboard-fill"></i> ICDL - Ziad Hagagy</div>
+    <nav>
+      <a href="./index.html">الرئيسية</a>
+      <a href="./search.html" class="active">استعلام</a>
+      <a href="./admin.html">الاحصائيات</a>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <h2><i class="bi bi-search"></i> استعلام عن حجز</h2>
+    <form id="queryForm" class="query-form-block" autocomplete="off" onsubmit="return doQuery(event)">
+      <label for="queryName"><i class="bi bi-person"></i> الاسم الرباعي:</label>
+      <input type="text" id="queryName" placeholder="أدخل الاسم الرباعي للبحث" maxlength="60" required>
+      <button type="submit" class="btn-main"><i class="bi bi-search"></i> بحث</button>
+    </form>
+    <div id="queryResult"></div>
+  </main>
+
+  <footer>
+    <div class="footer-links">
+      <a href="#">عن الموقع</a>
+      <a href="#">سياسة الخصوصية</a>
+      <a href="#">الشروط والأحكام</a>
+    </div>
+    <div class="social">
+      <a href="#"><i class="bi bi-facebook"></i></a>
+      <a href="#"><i class="bi bi-whatsapp"></i></a>
+      <a href="#"><i class="bi bi-envelope"></i></a>
+    </div>
+    <div class="copy">جميع الحقوق محفوظة &copy; زياد حجاجي 2025</div>
+  </footer>
+
+  <script>
+    // Firebase config
+    const firebaseConfig = {
+      apiKey: "AIzaSyB_qOr1RzbdvhFGPefXaTMYmflssfbUrS0",
+      authDomain: "icdl-261b4.firebaseapp.com",
+      databaseURL: "https://icdl-261b4-default-rtdb.firebaseio.com",
+      projectId: "icdl-261b4",
+      storageBucket: "icdl-261b4.firebasestorage.app",
+      messagingSenderId: "1034739256423",
+      appId: "1:1034739256423:web:872187720b49d2a5ebd8c2"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    function safeKeyFromName(name) {
+      return name.replace(/[.#$[\]/]/g, "_").trim();
+    }
+
+    function isValidFullName(name) {
+      if (!name) return false;
+      const words = name.trim().split(/\s+/);
+      return words.length >= 4;
+    }
+
+    // دالة ترجمة نوع الكورس للعرض
+    function displayCourseType(type) {
+      if (!type) return '';
+      if (type === "ICDL") return "ICDL";
+      if (type === "English") return "English";
+      if (type === "Both" || type === "both" || type === "الاثنين معاً") return "الاثنين معاً ( ICDL - Engilsh )";
+      return type;
+    }
+
+    async function doQuery(e) {
+      e.preventDefault();
+      const resultDiv = document.getElementById('queryResult');
+      resultDiv.innerHTML = '<div class="spinner"></div>';
+      let name = document.getElementById('queryName').value.trim();
+
+      if (!isValidFullName(name)) {
+        resultDiv.innerHTML = '<div class="not-found-block">يرجى إدخال الاسم رباعياً للبحث.</div>';
+        return false;
+      }
+
+      // --- البحث في الطلبات الفردية ---
+      let found = false;
+      let results = [];
+
+      const baseKey = safeKeyFromName(name);
+      await db.ref("individual_requests").orderByKey().startAt(baseKey).endAt(baseKey + "\uf8ff").once("value", function(snapshot) {
+        snapshot.forEach(function(child) {
+          const data = child.val();
+          if(data && data.name && data.name.trim() === name) {
+            results.push({
+              ...data,
+              type: "فردي",
+              group: "",
+              date: data.createdAt || data.timestamp || data.created_at || child.key // fallback
+            });
+            found = true;
+          }
+        });
+      });
+
+      // --- البحث في المجموعات ---
+      await db.ref("groups").once("value", function(groupsSnap) {
+        groupsSnap.forEach(function(groupChild) {
+          const groupName = groupChild.key;
+          const requests = groupChild.child("requests");
+          if(requests.exists()) {
+            requests.forEach(function(reqChild) {
+              const data = reqChild.val();
+              if(data && data.name && data.name.trim() === name) {
+                results.push({
+                  ...data,
+                  type: "مجموعة",
+                  group: groupName,
+                  date: data.createdAt || data.timestamp || data.created_at || reqChild.key
+                });
+                found = true;
+              }
+            });
+          }
+        });
+      });
+
+      if(!found) {
+        resultDiv.innerHTML = '<div class="not-found-block">لم يتم العثور على أي حجز بهذا الاسم.</div>';
+        return false;
+      }
+
+      let html = "";
+      results.forEach(function(r, idx) {
+        let dateStr = "";
+        if (r.date && typeof r.date === "string" && /^\d{4}-\d{2}-\d{2}/.test(r.date)) {
+          dateStr = r.date;
+        } else {
+          dateStr = "";
+        }
+        html += `
+        <div class="search-result-block">
+          <div class="header">
+            <i class="bi bi-person"></i>
+            ${r.name}
+            ${r.type === "مجموعة" ? `<span class="group-label">مجموعة: ${r.group}</span>` : `<span class="group-label" style="background:#faab32;color:#fff">فردي</span>`}
+          </div>
+          <div class="meta">
+            ${dateStr ? `<i class="bi bi-calendar2-week"></i> تاريخ الحجز: ${dateStr}` : ""}
+          </div>
+          <div class="row"><strong>العنوان:</strong> ${r.address || ""}</div>
+          <div class="row"><strong>الهاتف:</strong> ${r.phone || ""}</div>
+          <div class="row"><strong>تم الدفع:</strong> ${r.paid || ""}</div>
+          <div class="row"><strong>نوع الكورس:</strong> ${displayCourseType(r.course)}</div>
+        </div>
+        `;
+      });
+      resultDiv.innerHTML = html;
+      return false;
+    }
+
+
+    // تعطيل الزر الأيمن
+document.addEventListener("contextmenu", function (e) {
+        e.preventDefault();
+    });
+
+    // تعطيل اختصارات F12 و Ctrl+Shift+I و Ctrl+Shift+J و Ctrl+U
+    document.addEventListener("keydown", function (e) {
+        if (e.key === "F12" || 
+            (e.ctrlKey && e.shiftKey && (e.key === "I" || e.key === "J")) || 
+            (e.ctrlKey && e.key === "U")) {
+            e.preventDefault();
+        }
+    });
+  </script>
+</body>
+</html>

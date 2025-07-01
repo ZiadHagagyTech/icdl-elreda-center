@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>ICDL - Ziad Hagagy</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Google Fonts: Cairo for Arabic, Inter for English -->
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;700&family=Inter:wght@600&display=swap" rel="stylesheet">
+  <!-- Bootstrap Icons for a more professional touch -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-hover: #1748b9;
+      --accent: #f59e42;
+      --bg: #f4f7fb;
+      --white: #fff;
+      --gray: #d6e0f0;
+      --text: #23395d;
+      --border: #e0e6ef;
+      --shadow: 0 4px 20px #02204314;
+      --radius: 16px;
+      --transition: 0.2s all;
+    }
+    html, body {
+      font-family: 'Cairo', 'Inter', Arial, sans-serif;
+      background: var(--bg);
+      margin: 0;
+      padding: 0;
+      color: var(--text);
+      min-height: 100vh;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+    .navbar {
+      background: var(--white);
+      box-shadow: var(--shadow);
+      padding: 0 24px;
+      height: 62px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1.5px solid var(--gray);
+    }
+    .navbar .logo {
+      font-family: 'Inter', 'Cairo', Arial, sans-serif;
+      font-size: 1.25em;
+      font-weight: bold;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      letter-spacing: 1px;
+    }
+    .navbar nav {
+      display: flex;
+      gap: 18px;
+    }
+    .navbar nav a {
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 1em;
+      padding: 6px 18px;
+      border-radius: 7px;
+      transition: var(--transition);
+    }
+    .navbar nav a:hover, .navbar nav a.active {
+      background: var(--primary);
+      color: var(--white);
+    }
+    .main-content {
+      max-width: 510px;
+      margin: 44px auto 30px;
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 36px 22px 25px 22px;
+      min-height: 320px;
+      position: relative;
+      overflow: hidden;
+      animation: fadeInUp 0.7s;
+    }
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(40px);}
+      100% { opacity: 1; transform: translateY(0);}
+    }
+    .main-content h2 {
+      text-align: center;
+      color: var(--primary);
+      margin-bottom: 28px;
+      font-size: 2em;
+      letter-spacing: 0.5px;
+      font-family: 'Inter','Cairo',sans-serif;
+      font-weight: 700;
+    }
+    .tab-nav {
+      display: flex;
+      justify-content: center;
+      gap: 4px;
+      background: #f7f9fd;
+      border-radius: 10px;
+      margin-bottom: 30px;
+      box-shadow: 0 1px 6px #02204311;
+      border: 1.2px solid var(--gray);
+      padding: 2px 0;
+      overflow-x: auto;
+    }
+    .tab-btn {
+      background: none;
+      border: none;
+      outline: none;
+      color: var(--primary);
+      font-size: 1.09em;
+      font-family: inherit;
+      padding: 13px 20px 10px 20px;
+      font-weight: 600;
+      border-radius: 9px 9px 0 0;
+      cursor: pointer;
+      transition: background 0.17s, color 0.17s;
+      margin-bottom: -2px;
+      border-bottom: 2.5px solid transparent;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .tab-btn.active {
+      background: var(--white);
+      color: var(--primary-hover);
+      border-bottom: 2.5px solid var(--accent);
+      box-shadow: 0 -1px 4px #f3f3f8;
+      z-index: 2;
+    }
+    .tab-btn:disabled {
+      color: #aaa;
+      cursor: not-allowed;
+      background: #f5f5f5;
+    }
+    .group-list-block {
+      background: #f6f9ff;
+      border: 1.2px solid var(--gray);
+      border-radius: 7px;
+      padding: 14px 8px 10px 8px;
+      margin-bottom: 18px;
+      box-shadow: 0 1px 8px #02204307;
+    }
+    .group-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 7px 8px;
+      border-bottom: 1px solid #e8e8ee;
+      font-size: 1.06em;
+      font-weight: 500;
+      color: #2c3a54;
+    }
+    .group-item:last-child { border-bottom: none; }
+    .group-item button {
+      background: var(--accent);
+      border: none;
+      color: var(--white);
+      font-size: 1em;
+      border-radius: 6px;
+      padding: 4px 16px;
+      cursor: pointer;
+      margin-right: 5px;
+      transition: background 0.18s;
+    }
+    .group-item button:hover { background: #c97d1e; }
+    .hide { display: none !important; }
+    form {
+      margin: 0;
+      padding: 0;
+      animation: fadeInUp 0.65s;
+    }
+    .form-block {
+      background: #f9fbff;
+      border: 1.5px solid var(--border);
+      padding: 25px 17px 14px 17px;
+      border-radius: 13px;
+      box-shadow: 0 1px 9px #0220430d;
+      margin-bottom: 18px;
+      position: relative;
+      overflow: hidden;
+      transition: box-shadow 0.18s;
+    }
+    .form-block label {
+      font-size: 1.08em;
+      color: var(--primary);
+      margin-bottom: 4px;
+      font-weight: 500;
+      display: block;
+      margin-top: 7px;
+    }
+    .form-block input:not([type="radio"]), .form-block select {
+      width: 100%;
+      padding: 13px 10px;
+      margin-bottom: 16px;
+      border: 1.4px solid var(--gray);
+      border-radius: 6px;
+      font-size: 1.09em;
+      background: var(--white);
+      color: var(--text);
+      transition: border 0.19s, box-shadow 0.19s;
+      outline: none;
+      box-shadow: none;
+    }
+    .form-block input:focus, .form-block select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px #2563eb1a;
+    }
+    .form-radio-row {
+      margin-bottom: 18px;
+      margin-top: 3px;
+    }
+    .form-radio-row label {
+      display: inline-block;
+      margin-left: 11px;
+      font-size: 1em;
+      color: #444;
+      font-weight: 400;
+      cursor: pointer;
+    }
+    .form-block input[type="radio"] {
+      accent-color: var(--primary);
+      margin-left: 4px;
+      margin-right: 2px;
+      vertical-align: middle;
+      margin-top: -2px;
+    }
+    .readonly {
+      background: #e9eef6 !important;
+      color: #888 !important;
+      font-weight: bold;
+      cursor: not-allowed;
+    }
+    .form-title {
+      background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+      color: #fff;
+      padding: 10px 0 9px 0;
+      border-radius: 7px;
+      margin-bottom: 17px;
+      text-align: center;
+      font-size: 1.22em;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+      box-shadow: 0 1px 5px #23395d0a;
+    }
+    .form-block .bi {
+      margin-left: 6px;
+      color: var(--accent);
+      font-size: 1.15em;
+      vertical-align: middle;
+    }
+    .form-actions {
+      display: flex; gap: 9px; margin-top: 7px;
+    }
+    .success-msg {
+      background: #d4f7df;
+      color: #1a663a;
+      border-radius: 9px;
+      padding: 16px;
+      margin-bottom: 12px;
+      text-align: center;
+      font-size: 1.13em;
+      box-shadow: 0 2px 8px #1a663a11;
+      animation: fadeInUp 0.7s;
+    }
+    .center-message-container {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(40, 52, 92, 0.18);
+      z-index: 99999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.25s;
+    }
+    .center-message {
+      background: #fff;
+      color: #187e3d;
+      font-size: 1.3em;
+      font-family: 'Cairo', Arial, sans-serif;
+      border-radius: 18px;
+      box-shadow: 0 8px 40px #1a663a33;
+      padding: 40px 30px 32px 30px;
+      text-align: center;
+      min-width: 210px;
+      font-weight: 700;
+      border: 2px solid #d4f7df;
+      max-width: 85vw;
+      position: relative;
+      animation: popCenter 0.45s;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    .center-message .bi {
+      font-size: 2.1em;
+      color: #38b06b;
+      margin-bottom: 8px;
+      animation: tada 0.8s;
+    }
+    @keyframes popCenter {
+      0% { transform: scale(0.85); opacity: 0;}
+      80% { transform: scale(1.07);}
+      100% { transform: scale(1); opacity: 1;}
+    }
+    @keyframes tada {
+      0% { transform: scale(0.7) rotate(-5deg);}
+      40% { transform: scale(1.3) rotate(3deg);}
+      100% { transform: scale(1);}
+    }
+    .center-message button {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 26px;
+      font-size: 1.13em;
+      font-family: inherit;
+      cursor: pointer;
+      margin-top: 5px;
+      font-weight: bold;
+      transition: background 0.2s;
+    }
+    .center-message button:hover { background: var(--primary-hover);}
+    footer {
+      background: var(--primary);
+      color: var(--white);
+      text-align: center;
+      padding: 25px 10px 16px 10px;
+      font-size: 1.08em;
+      letter-spacing: 0.5px;
+      border-top-left-radius: 32px;
+      border-top-right-radius: 32px;
+      box-shadow: 0 -2px 18px #02204310;
+      margin-top: 40px;
+    }
+    footer .footer-links {
+      margin-bottom: 8px;
+      display: flex;
+      gap: 22px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    footer .footer-links a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.18s;
+    }
+    footer .footer-links a:hover { color: #fff; text-decoration: underline;}
+    footer .social {
+      margin-top: 8px;
+      font-size: 1.5em;
+    }
+    footer .social a { color: #fff; margin: 0 4px; transition: color 0.18s;}
+    footer .social a:hover { color: var(--accent);}
+    footer .copy {
+      margin-top: 13px;
+      color: #f7e8c7;
+      font-size: 1.07em;
+      font-family: 'Inter',sans-serif;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+    @media (max-width:900px){
+      .main-content { max-width: 98vw;}
+    }
+    @media (max-width:600px) {
+      .main-content { padding: 9vw 2vw 3vw 2vw; }
+      .navbar { padding: 0 3vw;}
+      .main-content h2 { font-size: 1.18em;}
+      .form-block { padding: 6vw 4vw;}
+      .btns-row { flex-direction: column; gap:9px;}
+      .form-title { font-size: 1em;}
+      .tab-btn { padding: 11px 7vw 8px 7vw; font-size:1em;}
+      .center-message { padding: 28px 5vw;}
+    }
+    @media (max-width:430px){
+      .main-content { padding: 5vw 1vw 3vw 1vw;}
+      .navbar .logo { font-size: 1em;}
+      .footer-links { flex-direction: column; gap:5px;}
+    }
+  </style>
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+</head>
+<body>
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="logo"><i class="bi bi-mortarboard-fill"></i> ICDL - Ziad Hagagy</div>
+    <nav>
+      <a href="./index.html" class="active">الرئيسية</a>
+      <a href="./search.html">استعلام</a>
+      <a href="./admin.html">الاحصائيات</a>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <h2>حجز الكورسات</h2>
+    <div id="successMsg" class="success-msg hide"></div>
+    
+    <!-- Internal navigation tabs inside the container -->
+    <div class="tab-nav" id="tabNav">
+      <button class="tab-btn active" id="tab-addgroup" onclick="switchTab('addGroupTab')" type="button"><i class="bi bi-people-fill"></i> إضافة مجموعة</button>
+      <button class="tab-btn" id="tab-individual" onclick="switchTab('individualTab')" type="button"><i class="bi bi-person-fill-add"></i> حجز فردي</button>
+      <button class="tab-btn" id="tab-groupbooking" onclick="switchTab('groupBookingTab')" type="button" disabled><i class="bi bi-person-lines-fill"></i> حجز في مجموعة</button>
+    </div>
+
+    <!-- محتوى التاب: إضافة مجموعة -->
+    <section id="addGroupTab">
+      <form id="addGroupSec" class="form-block" onsubmit="addGroup(event)">
+        <div class="form-title"><i class="bi bi-people-fill"></i> إضافة مجموعة جديدة</div>
+        <label for="groupName"><i class="bi bi-people-fill"></i> اسم المجموعة:</label>
+        <input type="text" id="groupName" required maxlength="40" placeholder="أدخل اسم المجموعة">
+        <div class="form-actions">
+          <input type="submit" class="btn-main" value="إضافة">
+        </div>
+      </form>
+      <div id="groupListSec" class="group-list-block hide">
+        <strong style="color:var(--primary)">المجموعات المضافة:</strong>
+        <div id="groupList"></div>
+      </div>
+    </section>
+    
+    <!-- محتوى التاب: حجز فردي -->
+    <section id="individualTab" class="hide">
+      <form id="individualSec" class="form-block" onsubmit="submitBooking(event, 'individual')">
+        <div class="form-title"><i class="bi bi-person-fill-add"></i> حجز فردي</div>
+        <label><i class="bi bi-person"></i> الاسم رباعي:</label>
+        <input type="text" id="indName" required maxlength="60">
+        <label><i class="bi bi-geo-alt"></i> العنوان:</label>
+        <input type="text" id="indAddress" required maxlength="80">
+        <label><i class="bi bi-telephone"></i> رقم التليفون:</label>
+        <input type="text" id="indPhone" required maxlength="20" pattern="[0-9+ ]+">
+        <label><i class="bi bi-cash-coin"></i> تم الدفع؟</label>
+        <select id="indPaid">
+          <option value="لا">لا</option>
+          <option value="نعم" selected>نعم</option>
+        </select>
+        <div class="form-radio-row">
+          <label><i class="bi bi-mortarboard"></i> نوع الكورس:</label><br>
+          <input type="radio" name="indCourse" value="ICDL" id="indICDL" required> <label for="indICDL">ICDL</label>
+          <input type="radio" name="indCourse" value="English" id="indEnglish"> <label for="indEnglish">English</label>
+          <input type="radio" name="indCourse" value="Both" id="indBoth"> <label for="indBoth">الاثنين معاً</label>
+        </div>
+        <div class="form-actions">
+          <input type="submit" class="btn-main" value="حجز">
+        </div>
+      </form>
+    </section>
+    
+    <!-- محتوى التاب: حجز في مجموعة -->
+    <section id="groupBookingTab" class="hide">
+      <div id="groupSelectDiv" class="group-list-block"></div>
+      <form id="groupForm" class="form-block hide" onsubmit="submitBooking(event, 'group')">
+        <div class="form-title"><i class="bi bi-person-lines-fill"></i> حجز في مجموعة</div>
+        <label><i class="bi bi-people"></i> اسم المجموعة:</label>
+        <input type="text" id="groupNameShow" class="readonly" readonly>
+        <label><i class="bi bi-person"></i> الاسم رباعي:</label>
+        <input type="text" id="groupUserName" required maxlength="60">
+        <label><i class="bi bi-geo-alt"></i> العنوان:</label>
+        <input type="text" id="groupAddress" required maxlength="80">
+        <label><i class="bi bi-telephone"></i> رقم التليفون:</label>
+        <input type="text" id="groupPhone" required maxlength="20" pattern="[0-9+ ]+">
+        <label><i class="bi bi-cash-coin"></i> تم الدفع؟</label>
+        <select id="groupPaid">
+          <option value="لا">لا</option>
+          <option value="نعم" selected>نعم</option>
+        </select>
+        <div class="form-radio-row">
+          <label><i class="bi bi-mortarboard"></i> نوع الكورس:</label><br>
+          <input type="radio" name="groupCourse" value="ICDL" id="groupICDL" required> <label for="groupICDL">ICDL</label>
+          <input type="radio" name="groupCourse" value="English" id="groupEnglish"> <label for="groupEnglish">English</label>
+          <input type="radio" name="groupCourse" value="Both" id="groupBoth"> <label for="groupBoth">الاثنين معاً</label>
+        </div>
+        <div class="form-actions">
+          <input type="submit" class="btn-main" value="حجز">
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <!-- Centered Success Message Overlay -->
+  <div id="centerMessageContainer" class="center-message-container hide">
+    <div class="center-message" id="centerMessageBox">
+      <i class="bi bi-patch-check-fill"></i>
+      <span id="centerMessageText">تم الحجز بنجاح!</span>
+      <button onclick="hideCenterMessage()">إغلاق</button>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-links">
+      <a href="#">عن الموقع</a>
+      <a href="#">سياسة الخصوصية</a>
+      <a href="#">الشروط والأحكام</a>
+    </div>
+    <div class="social">
+      <a href="#"><i class="bi bi-facebook"></i></a>
+      <a href="#"><i class="bi bi-whatsapp"></i></a>
+      <a href="#"><i class="bi bi-envelope"></i></a>
+    </div>
+    <div class="copy">جميع الحقوق محفوظة &copy; زياد حجاجي 2025</div>
+  </footer>
+
+  <script>
+    // Firebase config
+    const firebaseConfig = {
+      apiKey: "AIzaSyB_qOr1RzbdvhFGPefXaTMYmflssfbUrS0",
+      authDomain: "icdl-261b4.firebaseapp.com",
+      databaseURL: "https://icdl-261b4-default-rtdb.firebaseio.com",
+      projectId: "icdl-261b4",
+      storageBucket: "icdl-261b4.firebasestorage.app",
+      messagingSenderId: "1034739256423",
+      appId: "1:1034739256423:web:872187720b49d2a5ebd8c2"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    let groups = [];
+
+    // Internal tab navigation
+    function switchTab(tab) {
+      document.getElementById('addGroupTab').classList.add('hide');
+      document.getElementById('individualTab').classList.add('hide');
+      document.getElementById('groupBookingTab').classList.add('hide');
+      document.getElementById('tab-addgroup').classList.remove('active');
+      document.getElementById('tab-individual').classList.remove('active');
+      document.getElementById('tab-groupbooking').classList.remove('active');
+      document.getElementById(tab).classList.remove('hide');
+      if(tab === 'addGroupTab') document.getElementById('tab-addgroup').classList.add('active');
+      if(tab === 'individualTab') document.getElementById('tab-individual').classList.add('active');
+      if(tab === 'groupBookingTab') document.getElementById('tab-groupbooking').classList.add('active');
+      if(tab === 'groupBookingTab') prepareGroupBooking();
+    }
+    switchTab('addGroupTab');
+
+    // تحميل المجموعات من قاعدة البيانات وعرضها
+    function loadGroups() {
+      db.ref("groups").once("value", snap => {
+        groups = [];
+        if(snap.exists()) {
+          snap.forEach(child => {
+            groups.push(child.key);
+          });
+        }
+        listGroups();
+      });
+    }
+    loadGroups();
+
+    function listGroups() {
+      const groupList = document.getElementById('groupList');
+      if (!groups.length) {
+        groupList.innerHTML = "<em>لا يوجد مجموعات مضافة بعد.</em>";
+        document.getElementById('tab-groupbooking').disabled = true;
+        document.getElementById('groupListSec').classList.add('hide');
+        return;
+      }
+      groupList.innerHTML = groups.map(g => `<div class="group-item">${g}</div>`).join('');
+      document.getElementById('tab-groupbooking').disabled = false;
+      document.getElementById('groupListSec').classList.remove('hide');
+    }
+
+    // إضافة مجموعة
+    function addGroup(e) {
+      e.preventDefault();
+      const name = document.getElementById('groupName').value.trim();
+      if (!name) return alert("يرجى إدخال اسم المجموعة.");
+      if (groups.includes(name)) return alert("اسم المجموعة مكرر!");
+      db.ref("groups/" + name).set(true).then(() => {
+        document.getElementById('groupName').value = "";
+        showSuccess("تم إضافة المجموعة بنجاح!");
+        loadGroups();
+        switchTab('groupBookingTab');
+      }).catch(() => {
+        alert("حدث خطأ أثناء إضافة المجموعة.");
+      });
+    }
+
+    // حجز في مجموعة: عرض اختيار المجموعات
+    function prepareGroupBooking() {
+      const selDiv = document.getElementById('groupSelectDiv');
+      document.getElementById('groupForm').classList.add('hide');
+      if (!groups.length) {
+        selDiv.innerHTML = "<em>لا يوجد مجموعات، أضف مجموعة أولاً.</em>";
+        document.getElementById('tab-groupbooking').disabled = true;
+        return;
+      }
+      selDiv.innerHTML = groups.map(g =>
+        `<div class="group-item">
+          <span><i class="bi bi-people"></i> ${g}</span>
+          <button type="button" onclick="chooseGroup('${g.replace(/'/g,"\\'")}')">اختيار</button>
+        </div>`
+      ).join('');
+      document.getElementById('tab-groupbooking').disabled = false;
+    }
+    function chooseGroup(groupName) {
+      document.getElementById('groupSelectDiv').innerHTML = "";
+      document.getElementById('groupForm').reset();
+      document.getElementById('groupNameShow').value = groupName;
+      document.getElementById('groupPaid').value = "نعم";
+      document.getElementById('groupForm').classList.remove('hide');
+    }
+
+    // عند الدخول على حجز فردي، اجعل الدفع Yes افتراضيًا (للتأكد في الإعادة)
+    document.getElementById('tab-individual').addEventListener('click', function() {
+      setTimeout(function() {
+        document.getElementById('indPaid').value = "نعم";
+      }, 10);
+    });
+
+    // دالة تحقق الاسم الرباعي (4 كلمات أو أكثر)
+    function isValidFullName(name) {
+      if (!name) return false;
+      const words = name.trim().split(/\s+/);
+      return words.length >= 4;
+    }
+
+    // دالة لتحويل الاسم لمسار آمن في قاعدة البيانات (يمنع الرموز غير المسموحة)
+    function safeKeyFromName(name) {
+      // يمنع نقاط البداية/النهاية، الشرطتين، والنقاط، الأقواس، المسافة الزائدة
+      // Firebase Realtime Database لا يسمح: . # $ [ ] /
+      return name.replace(/[.#$[\]/]/g, "_").trim();
+    }
+
+    // عملية الحجز
+    function submitBooking(e, type) {
+      e.preventDefault();
+      let data = {};
+      if (type === 'individual') {
+        data = {
+          name: document.getElementById('indName').value.trim(),
+          address: document.getElementById('indAddress').value.trim(),
+          phone: document.getElementById('indPhone').value.trim(),
+          paid: document.getElementById('indPaid').value,
+          course: document.querySelector('input[name="indCourse"]:checked')?.value || "",
+        };
+        if (!data.name || !data.address || !data.phone || !data.course)
+          return alert("يرجى ملء جميع الحقول.");
+        if (!isValidFullName(data.name))
+          return alert("يرجى إدخال الاسم رباعياً (اسمك واسم الأب واسم الجد واسم العائلة).");
+        // حفظ الطلب في مسار منفصل باسم الطالب (وبذلك لو تكرر الاسم لن يُستبدل بل يُضاف رقم تسلسلي)
+        const baseKey = safeKeyFromName(data.name);
+        db.ref("individual_requests").orderByKey().startAt(baseKey).endAt(baseKey + "\uf8ff").once("value", function(snapshot) {
+          let count = 0;
+          snapshot.forEach(function(child) { count++; });
+          let fullKey = baseKey;
+          if(count > 0) fullKey = baseKey + "_" + (count+1);
+          db.ref("individual_requests/" + fullKey).set(data).then(() => {
+            showCenterMessage("تم الحجز الفردي بنجاح!");
+            document.getElementById('individualSec').reset();
+            document.getElementById('indPaid').value = "نعم";
+          }).catch(()=>alert("حدث خطأ أثناء الحجز!"));
+        });
+      } else {
+        data = {
+          group: document.getElementById('groupNameShow').value,
+          name: document.getElementById('groupUserName').value.trim(),
+          address: document.getElementById('groupAddress').value.trim(),
+          phone: document.getElementById('groupPhone').value.trim(),
+          paid: document.getElementById('groupPaid').value,
+          course: document.querySelector('input[name="groupCourse"]:checked')?.value || "",
+        };
+        if (!data.name || !data.address || !data.phone || !data.course)
+          return alert("يرجى ملء جميع الحقول.");
+        if (!isValidFullName(data.name))
+          return alert("يرجى إدخال الاسم رباعياً (اسمك واسم الأب واسم الجد واسم العائلة).");
+        // الطلب داخل المجموعة باسم الطالب (مع رقم تسلسلي إذا تكرر)
+        const baseKey = safeKeyFromName(data.name);
+        db.ref("groups/" + data.group + "/requests").orderByKey().startAt(baseKey).endAt(baseKey + "\uf8ff").once("value", function(snapshot) {
+          let count = 0;
+          snapshot.forEach(function(child) { count++; });
+          let fullKey = baseKey;
+          if(count > 0) fullKey = baseKey + "_" + (count+1);
+          db.ref("groups/" + data.group + "/requests/" + fullKey).set({
+            name: data.name,
+            address: data.address,
+            phone: data.phone,
+            paid: data.paid,
+            course: data.course
+          }).then(() => {
+            showCenterMessage("تم حجزك في المجموعة بنجاح!");
+            document.getElementById('groupForm').reset();
+            document.getElementById('groupPaid').value = "نعم";
+            switchTab('individualTab');
+          }).catch(()=>alert("حدث خطأ أثناء الحجز في المجموعة!"));
+        });
+      }
+    }
+
+    // Overlay center message logic
+    function showCenterMessage(msg) {
+      const c = document.getElementById('centerMessageContainer');
+      document.getElementById('centerMessageText').innerText = msg;
+      c.classList.remove('hide');
+      // hide after 4 seconds unless closed manually
+      c._centerTimeout = setTimeout(hideCenterMessage, 4000);
+    }
+    function hideCenterMessage() {
+      const c = document.getElementById('centerMessageContainer');
+      c.classList.add('hide');
+      if (c._centerTimeout) clearTimeout(c._centerTimeout);
+    }
+
+    function showSuccess(msg) {
+      const msgDiv = document.getElementById('successMsg');
+      msgDiv.innerHTML = msg;
+      msgDiv.classList.remove('hide');
+      setTimeout(() => msgDiv.classList.add('hide'), 4000);
+    }
+
+
+    // تعطيل الزر الأيمن
+document.addEventListener("contextmenu", function (e) {
+        e.preventDefault();
+    });
+
+    // تعطيل اختصارات F12 و Ctrl+Shift+I و Ctrl+Shift+J و Ctrl+U
+    document.addEventListener("keydown", function (e) {
+        if (e.key === "F12" || 
+            (e.ctrlKey && e.shiftKey && (e.key === "I" || e.key === "J")) || 
+            (e.ctrlKey && e.key === "U")) {
+            e.preventDefault();
+        }
+    });
+  </script>
+</body>
+</html>
