@@ -213,7 +213,6 @@
       align-items: center;
       gap: 7px;
     }
-    /* تعديل نموذج التعديل */
     .edit-modal {
       position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
@@ -226,32 +225,70 @@
     .edit-modal.hide { display: none !important; }
     .edit-box {
       background: #fff;
-      padding: 34px 22px 24px 22px;
-      border-radius: 16px;
-      box-shadow: 0 4px 40px #02204341;
-      min-width: 320px;
+      padding: 30px 28px 22px 28px;
+      border-radius: 18px;
+      box-shadow: 0 6px 50px #02204341;
+      min-width: 330px;
       max-width: 97vw;
-      text-align: center;
-      border: 2px solid var(--primary);
+      border: 2.2px solid var(--primary);
       position: relative;
       font-size: 1.08em;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
-    .edit-box h2 { color: var(--primary); margin-bottom: 13px;}
-    .edit-box input, .edit-box select {
-      width: 95%;
-      padding: 7px 8px;
-      margin: 5px 0 13px 0;
-      border: 1.2px solid #d6e0f0;
-      border-radius: 8px;
+    .edit-box h2 {
+      color: var(--primary);
+      margin-bottom: 13px;
+      font-size: 1.21em;
+      letter-spacing: 0.4px;
+    }
+    .edit-form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 13px 22px;
+      width: 100%;
+      margin-bottom: 14px;
+      align-items: end;
+    }
+    .edit-form-grid label {
+      color: var(--primary-hover);
+      font-weight: 600;
+      font-size: 1em;
+      margin-bottom: 3px;
+      display: block;
+      text-align: right;
+      letter-spacing: 0.2px;
+    }
+    .edit-form-grid input,
+    .edit-form-grid select {
+      width: 100%;
+      padding: 8px 7px;
+      border-radius: 7px;
+      border: 1.3px solid var(--gray);
       font-size: 1.09em;
       font-family: inherit;
-      transition: border 0.15s;
+      margin-bottom: 2px;
+      background: #f8fbff;
+      transition: border 0.16s;
+      box-sizing: border-box;
+      outline: none;
     }
-    .edit-box input:focus, .edit-box select:focus { border-color: var(--primary);}
-    .edit-box button { margin-top: 11px;}
+    .edit-form-grid input:focus,
+    .edit-form-grid select:focus {
+      border-color: var(--primary);
+    }
+    .edit-form-actions {
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 13px;
+      margin-top: 10px;
+    }
     .edit-close {
       position: absolute;
-      left: 14px; top: 12px;
+      left: 18px; top: 11px;
       background: transparent;
       color: #ad1818;
       border: none;
@@ -261,8 +298,21 @@
       transition: color 0.18s;
     }
     .edit-close:hover { color: #d53a2c;}
+    @media (max-width: 600px) {
+      .edit-box {
+        padding: 17px 4vw 14px 4vw;
+        min-width: 95vw;
+      }
+      .edit-form-grid {
+        grid-template-columns: 1fr;
+        gap: 7px 0;
+      }
+      .edit-form-actions {
+        flex-direction: column;
+        gap: 7px;
+      }
+    }
     @media (max-width:1000px){ .main-content { max-width: 99vw;} .stats-grid { flex-direction: column; gap:10px;}}
-    @media (max-width:600px) { .main-content { padding: 4vw 1vw 3vw 1vw; } .navbar { padding: 0 2vw;} .tbl td, .tbl th { font-size: 0.93em; } }
     @media print {
       .navbar, .login-modal, .footer-links, .social, .copy, .btn-print, .btn-action, .edit-modal { display: none !important; }
       .main-content { box-shadow: none; border-radius: 0; margin: 0; }
@@ -274,7 +324,6 @@
   </style>
 </head>
 <body>
-  <!-- Navbar (Always visible and clickable) -->
   <header class="navbar" id="mainNavbar">
     <div class="logo">ICDL - Ziad Hagagy <i class="bi bi-mortarboard-fill"></i></div>
     <nav>
@@ -302,32 +351,51 @@
     <form class="edit-box" onsubmit="return saveEdit(event)">
       <button type="button" class="edit-close" onclick="closeEditModal()">&times;</button>
       <h2>تعديل بيانات الحجز</h2>
-      <input type="hidden" id="editKey">
-      <input type="hidden" id="editType">
-      <input type="hidden" id="editGroup">
-      <label>الاسم:</label>
-      <input id="editName" required>
-      <label>العنوان:</label>
-      <input id="editAddress" required>
-      <label>الهاتف:</label>
-      <input id="editPhone" required>
-      <label>نوع الكورس:</label>
-      <select id="editCourse" required>
-        <option value="">اختر الكورس</option>
-        <option value="icdl">ICDL</option>
-        <option value="english">English</option>
-        <option value="both">الاثنين معاً (ICDL - English)</option>
-      </select>
-      <label>تم الدفع:</label>
-      <select id="editPaid" required>
-        <option value="نعم">نعم</option>
-        <option value="لا">لا</option>
-      </select>
-      <button class="btn-action edit" type="submit">حفظ التعديل</button>
+      <div class="edit-form-grid">
+        <div>
+          <label>الاسم:</label>
+          <input id="editName" required>
+        </div>
+        <div>
+          <label>العنوان:</label>
+          <input id="editAddress" required>
+        </div>
+        <div>
+          <label>الهاتف:</label>
+          <input id="editPhone" required>
+        </div>
+        <div>
+          <label>نوع الكورس:</label>
+          <select id="editCourse" required>
+            <option value="">اختر الكورس</option>
+            <option value="icdl">ICDL</option>
+            <option value="english">English</option>
+            <option value="both">الاثنين معاً (ICDL - English)</option>
+          </select>
+        </div>
+        <div>
+          <label>تم الدفع:</label>
+          <select id="editPaid" required>
+            <option value="نعم">نعم</option>
+            <option value="لا">لا</option>
+          </select>
+        </div>
+        <div>
+          <label>المجموعة:</label>
+          <select id="editGroupSelect" required>
+            <option value="individual" data-type="individual">(حجز فردي)</option>
+          </select>
+        </div>
+      </div>
+      <div class="edit-form-actions">
+        <input type="hidden" id="editKey">
+        <input type="hidden" id="editType">
+        <input type="hidden" id="editGroupOld">
+        <button class="btn-action edit" type="submit">حفظ التعديل</button>
+      </div>
     </form>
   </div>
 
-  <!-- Main Content -->
   <main class="main-content hide" id="adminContent">
     <h2><i class="bi bi-speedometer2"></i> لوحة التحكم والإحصائيات</h2>
     <div class="section-title"><i class="bi bi-bar-chart-line-fill"></i> إحصائيات عامة
@@ -384,7 +452,6 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
   <script>
-    // بيانات تسجيل الدخول
     const ADMIN_USERNAME = "admin";
     const ADMIN_PASSWORD = "4159";
     const COURSE_PRICE = 500;
@@ -398,6 +465,8 @@
       appId: "1:1034739256423:web:872187720b49d2a5ebd8c2"
     });
     const db = firebase.database();
+
+    let cachedGroupNames = [];
 
     function login(e) {
       e.preventDefault();
@@ -418,7 +487,6 @@
       document.getElementById('mainFooter').classList.add('hide-footer');
     };
 
-    // حمل البيانات وارسم الجداول
     async function loadDashboard() {
       let stats = {
         countICDL: 0, countEnglish: 0, countBoth: 0,
@@ -429,7 +497,14 @@
         totalIndividualPrice: 0, totalIndividualBothPrice: 0, totalGroupIndividualPrice: 0, totalGroupBothPrice: 0,
       };
       let tblIndRows = "";
-      // تحميل الأفراد
+      cachedGroupNames = [];
+      let snapshotGroupsNames = await db.ref("groups").once("value");
+      snapshotGroupsNames.forEach(groupChild => {
+        const groupName = groupChild.key;
+        cachedGroupNames.push(groupName);
+        stats.groupNames.push(groupName);
+      });
+
       let snapshotInd = await db.ref("individual_requests").once("value");
       let indIndex = 1;
       snapshotInd.forEach(child => {
@@ -466,12 +541,10 @@
       });
       document.querySelector('#tblIndividual tbody').innerHTML = tblIndRows || `<tr><td colspan="8">لا يوجد حجوزات فردية</td></tr>`;
 
-      // المجموعات
       let snapshotGroups = await db.ref("groups").once("value");
       let groupHtmlBlocks = [];
       snapshotGroups.forEach(groupChild => {
         const groupName = groupChild.key;
-        stats.groupNames.push(groupName);
         const requests = groupChild.child("requests");
         let groupRows = "";
         let membersCount = 0;
@@ -540,7 +613,6 @@
       });
       document.getElementById('groupsContainer').innerHTML = groupHtmlBlocks.length ? groupHtmlBlocks.join('') : '<div style="color:#888;">لا توجد مجموعات مسجلة</div>';
 
-      // إحصائيات عامة
       stats.totalICDL = stats.countICDL * COURSE_PRICE;
       stats.totalEnglish = stats.countEnglish * COURSE_PRICE;
       stats.totalBoth = stats.countBoth * COURSE_PRICE * 2;
@@ -660,7 +732,6 @@
       printArea.style.display = 'none';
     }
 
-    // حذف شخص (فردي أو مجموعة)
     function deletePerson(type, key, groupName) {
       if (!confirm('هل أنت متأكد من حذف هذا الشخص؟')) return;
       if (type === 'individual') {
@@ -676,20 +747,27 @@
       }
     }
 
-    // فتح نافذة التعديل
     async function showEditModal(type, key, groupName) {
+      const select = document.getElementById('editGroupSelect');
+      select.innerHTML = `<option value="individual" data-type="individual">(حجز فردي)</option>`;
+      cachedGroupNames.forEach(g => {
+        select.innerHTML += `<option value="${g}" data-type="group">${g}</option>`;
+      });
+
       let data;
       if (type === 'individual') {
         let snap = await db.ref('individual_requests/' + key).once('value');
         data = snap.val();
+        select.value = "individual";
       } else if (type === 'group' && groupName) {
         let snap = await db.ref('groups/' + groupName + '/requests/' + key).once('value');
         data = snap.val();
+        select.value = groupName;
       }
       if(!data) return alert('لا يوجد بيانات!');
       document.getElementById('editKey').value = key;
       document.getElementById('editType').value = type;
-      document.getElementById('editGroup').value = groupName || "";
+      document.getElementById('editGroupOld').value = groupName || "";
       document.getElementById('editName').value = data.name || '';
       document.getElementById('editAddress').value = data.address || '';
       document.getElementById('editPhone').value = data.phone || '';
@@ -703,12 +781,13 @@
     function closeEditModal() {
       document.getElementById('editModal').classList.add('hide');
     }
-    // حفظ التعديلات
+
     async function saveEdit(e) {
       e.preventDefault();
       const key = document.getElementById('editKey').value;
-      const type = document.getElementById('editType').value;
-      const group = document.getElementById('editGroup').value;
+      const oldType = document.getElementById('editType').value;
+      const oldGroup = document.getElementById('editGroupOld').value;
+      const selectedGroup = document.getElementById('editGroupSelect').value;
       const data = {
         name: document.getElementById('editName').value.trim(),
         address: document.getElementById('editAddress').value.trim(),
@@ -716,22 +795,28 @@
         course: document.getElementById('editCourse').value,
         paid: document.getElementById('editPaid').value
       };
-      if (type === 'individual') {
+      if (oldType === 'individual' && selectedGroup !== "individual") {
+        await db.ref('individual_requests/' + key).remove();
+        await db.ref('groups/' + selectedGroup + '/requests/' + key).set(data);
+      } else if (oldType === 'group' && selectedGroup === "individual") {
+        await db.ref('groups/' + oldGroup + '/requests/' + key).remove();
         await db.ref('individual_requests/' + key).set(data);
-      } else if (type === 'group' && group) {
-        await db.ref('groups/' + group + '/requests/' + key).set(data);
+      } else if (oldType === 'group' && selectedGroup !== oldGroup && selectedGroup !== "individual") {
+        await db.ref('groups/' + oldGroup + '/requests/' + key).remove();
+        await db.ref('groups/' + selectedGroup + '/requests/' + key).set(data);
+      } else if (oldType === 'individual' && selectedGroup === "individual") {
+        await db.ref('individual_requests/' + key).set(data);
+      } else if (oldType === 'group' && selectedGroup === oldGroup) {
+        await db.ref('groups/' + oldGroup + '/requests/' + key).set(data);
       }
       alert('تم حفظ التعديلات بنجاح');
       closeEditModal();
       loadDashboard();
     }
 
-    // تعطيل الزر الأيمن
     document.addEventListener("contextmenu", function (e) {
       e.preventDefault();
     });
-
-    // تعطيل اختصارات F12 و Ctrl+Shift+I و Ctrl+Shift+J و Ctrl+U
     document.addEventListener("keydown", function (e) {
       if (e.key === "F12" ||
         (e.ctrlKey && e.shiftKey && (e.key === "I" || e.key === "J")) ||
