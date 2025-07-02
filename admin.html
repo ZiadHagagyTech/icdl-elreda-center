@@ -190,6 +190,8 @@
     .stats-grid { display: flex; gap: 25px; flex-wrap: wrap; margin-bottom: 20px;}
     .stat-card { background: #e9f0fa; border: 1.2px solid var(--gray); border-radius: 10px; padding: 17px 16px 11px 16px; min-width: 170px; min-height: 80px; flex: 1 1 170px; margin-bottom: 10px; text-align: center; box-shadow: 0 1px 8px #02204309; font-size: 1.13em;}
     .stat-card strong {color: var(--primary);font-size: 1.33em;display: block;margin-bottom: 2px;}
+    .stat-card.unpaid {background:#fff3e0;border-color:#f59e42;}
+    .stat-card.unpaid strong {color:#d53a2c;}
     .tbl { width: 100%; border-collapse: collapse; margin-bottom: 20px; background: #f8fbff; border-radius: 7px; overflow: hidden; font-size: 1.04em; box-shadow: 0 1px 9px #02204310;}
     .tbl th, .tbl td { padding: 8px 7px; border: 1px solid #e9e0ff; text-align: center;}
     .tbl th { background: #e5eaf6; color: var(--primary-hover); font-weight: bold; font-size: 1.07em;}
@@ -298,6 +300,21 @@
       transition: color 0.18s;
     }
     .edit-close:hover { color: #d53a2c;}
+    .number-cell {
+      background: #e74c3c;
+      color: #fff;
+      border-radius: 6px;
+      font-weight: bold;
+      font-size: 1em;
+      padding: 4px 11px;
+      box-shadow: 0 2px 7px #d53a2c22;
+      display: inline-block;
+      transition: background 0.2s;
+    }
+    .number-cell.paid {
+      background: #2563eb;
+      color: #fff;
+    }
     @media (max-width: 600px) {
       .edit-box {
         padding: 17px 4vw 14px 4vw;
@@ -495,6 +512,8 @@
         totalPaid: 0, totalPersons: 0, totalInGroups: 0, totalIndividual: 0,
         groupNames: [],
         totalIndividualPrice: 0, totalIndividualBothPrice: 0, totalGroupIndividualPrice: 0, totalGroupBothPrice: 0,
+        unpaidPersonsCount: 0,
+        unpaidTotalAmount: 0
       };
       let tblIndRows = "";
       cachedGroupNames = [];
@@ -517,16 +536,9 @@
         else if(courseType === "both" || courseType === "الاثنين معاً") { price = COURSE_PRICE*2; stats.countBoth++; stats.totalIndividualBothPrice += price; }
         else price = 0;
         let paid = v.paid === "نعم" || v.paid === "yes";
-        if(courseType === "icdl" && paid) stats.paidICDL += price;
-        if(courseType === "english" && paid) stats.paidEnglish += price;
-        if((courseType === "both" || courseType === "الاثنين معاً") && paid) stats.paidBoth += price;
-        if(paid) stats.totalPaid += price;
-
-        stats.totalPersons++;
-        stats.totalIndividual++;
-
+        // الرقم بخلفية حمراء إذا لم يدفع، أزرق إذا دفع
         tblIndRows += `<tr>
-          <td>${indIndex++}</td>
+          <td><span class="number-cell${paid ? ' paid' : ''}">${indIndex++}</span></td>
           <td>${v.name || ""}</td>
           <td>${v.address || ""}</td>
           <td>${v.phone || ""}</td>
@@ -538,6 +550,17 @@
             <button class="btn-action delete" onclick="deletePerson('individual','${key}')"><i class="bi bi-trash"></i></button>
           </td>
         </tr>`;
+        if(paid){
+          if(courseType === "icdl") stats.paidICDL += price;
+          if(courseType === "english") stats.paidEnglish += price;
+          if(courseType === "both" || courseType === "الاثنين معاً") stats.paidBoth += price;
+          stats.totalPaid += price;
+        } else {
+          stats.unpaidPersonsCount++;
+          stats.unpaidTotalAmount += price;
+        }
+        stats.totalPersons++;
+        stats.totalIndividual++;
       });
       document.querySelector('#tblIndividual tbody').innerHTML = tblIndRows || `<tr><td colspan="8">لا يوجد حجوزات فردية</td></tr>`;
 
@@ -560,17 +583,8 @@
             else if(courseType === "both" || courseType === "الاثنين معاً") { price = COURSE_PRICE*2; stats.countBoth++; stats.totalGroupBothPrice += price; }
             else price = 0;
             let paid = v.paid === "نعم" || v.paid === "yes";
-            if(courseType === "icdl" && paid) stats.paidICDL += price;
-            if(courseType === "english" && paid) stats.paidEnglish += price;
-            if((courseType === "both" || courseType === "الاثنين معاً") && paid) stats.paidBoth += price;
-            if(paid) stats.totalPaid += price;
-
-            stats.totalPersons++;
-            stats.totalInGroups++;
-            membersCount++;
-
             groupRows += `<tr>
-              <td>${rowIndex++}</td>
+              <td><span class="number-cell${paid ? ' paid' : ''}">${rowIndex++}</span></td>
               <td>${v.name || ""}</td>
               <td>${v.address || ""}</td>
               <td>${v.phone || ""}</td>
@@ -582,6 +596,18 @@
                 <button class="btn-action delete" onclick="deletePerson('group','${key}','${groupName}')"><i class="bi bi-trash"></i></button>
               </td>
             </tr>`;
+            if(paid){
+              if(courseType === "icdl") stats.paidICDL += price;
+              if(courseType === "english") stats.paidEnglish += price;
+              if(courseType === "both" || courseType === "الاثنين معاً") stats.paidBoth += price;
+              stats.totalPaid += price;
+            } else {
+              stats.unpaidPersonsCount++;
+              stats.unpaidTotalAmount += price;
+            }
+            stats.totalPersons++;
+            stats.totalInGroups++;
+            membersCount++;
           });
         }
         groupHtmlBlocks.push(`
@@ -616,6 +642,7 @@
       stats.totalICDL = stats.countICDL * COURSE_PRICE;
       stats.totalEnglish = stats.countEnglish * COURSE_PRICE;
       stats.totalBoth = stats.countBoth * COURSE_PRICE * 2;
+
       let mainStatsHtml = `
         <div class="stat-card">
           <div>عدد الطلبة (الكل):</div>
@@ -657,21 +684,25 @@
           <div>مدفوع الاثنين معاً:</div>
           <strong>${stats.paidBoth} جم</strong>
         </div>
+        <div class="stat-card unpaid">
+          <div>عدد الأشخاص الغير دافعين:</div>
+          <strong>${stats.unpaidPersonsCount}</strong>
+        </div>
+        <div class="stat-card unpaid">
+          <div>إجمالي الغير مدفوع:</div>
+          <strong>${stats.unpaidTotalAmount} جم</strong>
+        </div>
       `;
       document.getElementById('mainStats').innerHTML = mainStatsHtml;
 
       let summariesHtml = `
         <div class="stat-card">
-          <div>إجمالي سعر الحجز الفردي (ICDL و English فقط):</div>
-          <strong>${stats.totalIndividualPrice + stats.totalGroupIndividualPrice} جم</strong>
+          <div>إجمالي سعر الحجز المدفوع (ICDL و English فقط):</div>
+          <strong>${stats.totalPaid} جم</strong>
         </div>
-        <div class="stat-card">
-          <div>إجمالي سعر حجز الاثنين معاً:</div>
-          <strong>${stats.totalIndividualBothPrice + stats.totalGroupBothPrice} جم</strong>
-        </div>
-        <div class="stat-card">
-          <div>إجمالي جميع الأسعار (كل الدخل):</div>
-          <strong>${stats.totalIndividualPrice + stats.totalGroupIndividualPrice + stats.totalIndividualBothPrice + stats.totalGroupBothPrice} جم</strong>
+        <div class="stat-card unpaid">
+          <div>إجمالي سعر الحجز الغير مدفوع:</div>
+          <strong>${stats.unpaidTotalAmount} جم</strong>
         </div>
       `;
       document.getElementById('summaries').innerHTML = summariesHtml;
