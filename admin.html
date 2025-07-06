@@ -73,87 +73,6 @@
       background: var(--primary);
       color: var(--white);
     }
-    .login-modal {
-      position: fixed;
-      top: 62px;
-      left: 0; right: 0; bottom: 0;
-      background: #dde3ef;
-      z-index: 1600;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: opacity 0.25s;
-      min-height: calc(100vh - 62px);
-    }
-    .login-modal.hide { display: none !important; }
-    .login-box {
-      background: #fff;
-      padding: 38px 32px 24px 32px;
-      border-radius: 16px;
-      box-shadow: 0 4px 40px #02204341;
-      min-width: 320px;
-      max-width: 95vw;
-      text-align: center;
-      border: 2px solid var(--primary);
-      animation: fadeInUp 0.6s;
-      z-index: 1800;
-      position: relative;
-    }
-    .login-box h2 {
-      color: var(--primary);
-      margin-bottom: 16px;
-      font-weight: bold;
-      font-size: 1.18em;
-    }
-    .login-box label {
-      color: var(--primary);
-      font-weight: bold;
-      margin-top: 12px;
-      display: block;
-      text-align: right;
-    }
-    .login-box input[type="text"],
-    .login-box input[type="password"] {
-      width: 98%;
-      padding: 10px 8px;
-      font-family: inherit;
-      font-size: 1.11em;
-      margin-bottom: 16px;
-      margin-top: 5px;
-      border: 1.3px solid var(--gray);
-      border-radius: 8px;
-      transition: border 0.15s;
-      background: #f8fbff;
-    }
-    .login-box input[type="text"]:focus,
-    .login-box input[type="password"]:focus {
-      border-color: var(--primary);
-      outline: none;
-    }
-    .login-box button {
-      background: var(--primary);
-      color: #fff;
-      border: none;
-      border-radius: 7px;
-      padding: 9px 30px;
-      font-size: 1.13em;
-      font-family: inherit;
-      cursor: pointer;
-      font-weight: bold;
-      margin-top: 12px;
-      margin-bottom: 7px;
-      transition: background 0.18s;
-    }
-    .login-box button:hover { background: var(--primary-hover);}
-    .login-error {
-      color: #d53a2c;
-      margin-bottom: 7px;
-      font-size: 1.02em;
-      font-weight: bold;
-      min-height: 24px;
-    }
-    .hide { display: none !important; }
-    .hide-footer { display: none !important; }
     .main-content {
       max-width: 900px;
       margin: 44px auto 30px;
@@ -166,8 +85,12 @@
       overflow: hidden;
       animation: fadeInUp 0.7s;
     }
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(40px);}
+      100% { opacity: 1; transform: translateY(0);}
+    }
     .section-title { font-size: 1.27em; font-weight: bold; color: var(--primary-hover); margin: 32px 0 12px 0; letter-spacing: 0.3px; display: flex; align-items: center; gap: 7px;}
-    .btn-print { background: var(--accent); color: #fff; border: none; border-radius: 8px; padding: 7px 26px; font-size: 1.08em; font-family: inherit; cursor: pointer; font-weight: bold; transition: background 0.18s; margin: 0 0 13px 7px; display: inline-block; }
+    .btn-print { background: var(--accent); color: #fff; border: none; border-radius: 8px; padding: 7px 26px; font-size: 1.08em; font-family: inherit; cursor: pointer; font-weight: bold; transition: background 0.18s;}
     .btn-print:hover { background: #c97d1e;}
     .btn-print i { margin-left: 4px;}
     .btn-action {
@@ -188,7 +111,7 @@
     .btn-action.delete { background: var(--danger); }
     .btn-action.delete:hover { background: var(--danger-hover);}
     .stats-grid { display: flex; gap: 25px; flex-wrap: wrap; margin-bottom: 20px;}
-    .stat-card { background: #e9f0fa; border: 1.2px solid var(--gray); border-radius: 10px; padding: 17px 16px 11px 16px; min-width: 170px; min-height: 80px; flex: 1 1 170px; margin-bottom: 10px; text-align: center; box-shadow: 0 1px 8px #02204309; font-size: 1.13em;}
+    .stat-card { background: #e9f0fa; border: 1.2px solid var(--gray); border-radius: 10px; padding: 17px 16px 11px 16px; min-width: 170px; min-height: 80px; flex: 1 1 170px; margin-bottom: 10px; text-align: center;}
     .stat-card strong {color: var(--primary);font-size: 1.33em;display: block;margin-bottom: 2px;}
     .stat-card.unpaid {background:#fff3e0;border-color:#f59e42;}
     .stat-card.unpaid strong {color:#d53a2c;}
@@ -196,6 +119,15 @@
     .tbl th, .tbl td { padding: 8px 7px; border: 1px solid #e9e0ff; text-align: center;}
     .tbl th { background: #e5eaf6; color: var(--primary-hover); font-weight: bold; font-size: 1.07em;}
     .tbl tbody tr:nth-child(even) { background: #f2f6fb;}
+    .tbl th.details-col,
+    .tbl td.details-col {
+      min-width: 110px;
+      max-width: 210px;
+      word-break: break-word;
+      font-size: 1em;
+      background: #f9f7f0;
+      color: #8b6e19;
+    }
     .group-names-list { background: #f6f9ff; border: 1.2px solid var(--gray); border-radius: 7px; padding: 13px 7px 10px 7px; margin-bottom: 18px; box-shadow: 0 1px 8px #02204307; direction: rtl;}
     .group-names-list span { display: inline-block; background: var(--accent); color: #fff; border-radius: 6px; padding: 5px 15px; margin: 4px 6px; font-size: 1.08em; font-weight: 500;}
     .group-block {
@@ -263,7 +195,8 @@
       letter-spacing: 0.2px;
     }
     .edit-form-grid input,
-    .edit-form-grid select {
+    .edit-form-grid select,
+    .edit-form-grid textarea {
       width: 100%;
       padding: 8px 7px;
       border-radius: 7px;
@@ -276,8 +209,14 @@
       box-sizing: border-box;
       outline: none;
     }
+    .edit-form-grid textarea {
+      resize: vertical;
+      min-height: 36px;
+      max-height: 100px;
+    }
     .edit-form-grid input:focus,
-    .edit-form-grid select:focus {
+    .edit-form-grid select:focus,
+    .edit-form-grid textarea:focus {
       border-color: var(--primary);
     }
     .edit-form-actions {
@@ -315,6 +254,8 @@
       background: #2563eb;
       color: #fff;
     }
+    .hide { display: none !important; }
+    .hide-footer { display: none !important; }
     @media (max-width: 600px) {
       .edit-box {
         padding: 17px 4vw 14px 4vw;
@@ -337,6 +278,96 @@
       body > *:not(#printArea) { display: none !important; }
       #printArea { display: block !important; }
       .group-block { border: 1px solid #2563eb; box-shadow: none; background: #fff;}
+    }
+    /* ---------- Login Modal Overlay Fix ---------- */
+    .login-modal {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(45,53,76,0.07);
+      z-index: 1600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      min-width: 100vw;
+    }
+    .login-box {
+      background: #fff;
+      padding: 38px 32px 24px 32px;
+      border-radius: 16px;
+      box-shadow: 0 4px 40px #02204341;
+      min-width: 320px;
+      max-width: 95vw;
+      text-align: center;
+      border: 2px solid var(--primary);
+      animation: fadeInUp 0.6s;
+      z-index: 1800;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .login-box h2 {
+      color: var(--primary);
+      margin-bottom: 16px;
+      font-weight: bold;
+      font-size: 1.18em;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      justify-content: center;
+    }
+    .login-box label {
+      color: var(--primary);
+      font-weight: bold;
+      margin-top: 12px;
+      display: block;
+      text-align: right;
+      width: 100%;
+      font-size: 1.09em;
+    }
+    .login-box input[type="text"],
+    .login-box input[type="password"] {
+      width: 98%;
+      padding: 10px 8px;
+      font-family: inherit;
+      font-size: 1.11em;
+      margin-bottom: 16px;
+      margin-top: 5px;
+      border: 1.3px solid var(--gray);
+      border-radius: 8px;
+      transition: border 0.15s;
+      background: #f8fbff;
+      box-sizing: border-box;
+    }
+    .login-box input[type="text"]:focus,
+    .login-box input[type="password"]:focus {
+      border-color: var(--primary);
+      outline: none;
+      background: #f0f6ff;
+    }
+    .login-box button {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 7px;
+      padding: 9px 30px;
+      font-size: 1.13em;
+      font-family: inherit;
+      cursor: pointer;
+      font-weight: bold;
+      margin-top: 12px;
+      margin-bottom: 7px;
+      transition: background 0.18s;
+    }
+    .login-box button:hover { background: var(--primary-hover);}
+    .login-error {
+      color: #d53a2c;
+      margin-bottom: 7px;
+      font-size: 1.02em;
+      font-weight: bold;
+      min-height: 24px;
     }
   </style>
 </head>
@@ -403,6 +434,10 @@
             <option value="individual" data-type="individual">(حجز فردي)</option>
           </select>
         </div>
+        <div style="grid-column:1/-1">
+          <label>تفاصيل إضافية (اختياري):</label>
+          <textarea id="editDetails" rows="2" maxlength="300" placeholder="اكتب أي تفاصيل إضافية إن وجدت"></textarea>
+        </div>
       </div>
       <div class="edit-form-actions">
         <input type="hidden" id="editKey">
@@ -438,6 +473,7 @@
             <th>نوع الكورس</th>
             <th>تم الدفع</th>
             <th>المبلغ</th>
+            <th class="details-col">التفاصيل</th>
             <th>إجراءات</th>
           </tr>
         </thead>
@@ -536,7 +572,6 @@
         else if(courseType === "both" || courseType === "الاثنين معاً") { price = COURSE_PRICE*2; stats.countBoth++; stats.totalIndividualBothPrice += price; }
         else price = 0;
         let paid = v.paid === "نعم" || v.paid === "yes";
-        // الرقم بخلفية حمراء إذا لم يدفع، أزرق إذا دفع
         tblIndRows += `<tr>
           <td><span class="number-cell${paid ? ' paid' : ''}">${indIndex++}</span></td>
           <td>${v.name || ""}</td>
@@ -545,6 +580,7 @@
           <td>${displayCourseType(v.course)}</td>
           <td>${v.paid || ""}</td>
           <td>${price} جم</td>
+          <td class="details-col">${(v.details && v.details.trim()) ? escapeHtml(v.details) : '<span style="color:#aaa">-</span>'}</td>
           <td>
             <button class="btn-action edit" onclick="showEditModal('individual','${key}')"><i class="bi bi-pencil"></i></button>
             <button class="btn-action delete" onclick="deletePerson('individual','${key}')"><i class="bi bi-trash"></i></button>
@@ -562,7 +598,7 @@
         stats.totalPersons++;
         stats.totalIndividual++;
       });
-      document.querySelector('#tblIndividual tbody').innerHTML = tblIndRows || `<tr><td colspan="8">لا يوجد حجوزات فردية</td></tr>`;
+      document.querySelector('#tblIndividual tbody').innerHTML = tblIndRows || `<tr><td colspan="9">لا يوجد حجوزات فردية</td></tr>`;
 
       let snapshotGroups = await db.ref("groups").once("value");
       let groupHtmlBlocks = [];
@@ -591,6 +627,7 @@
               <td>${displayCourseType(v.course)}</td>
               <td>${v.paid || ""}</td>
               <td>${price} جم</td>
+              <td class="details-col">${(v.details && v.details.trim()) ? escapeHtml(v.details) : '<span style="color:#aaa">-</span>'}</td>
               <td>
                 <button class="btn-action edit" onclick="showEditModal('group','${key}','${groupName}')"><i class="bi bi-pencil"></i></button>
                 <button class="btn-action delete" onclick="deletePerson('group','${key}','${groupName}')"><i class="bi bi-trash"></i></button>
@@ -626,11 +663,12 @@
                     <th>نوع الكورس</th>
                     <th>تم الدفع</th>
                     <th>المبلغ</th>
+                    <th class="details-col">التفاصيل</th>
                     <th>إجراءات</th>
                   </tr>
                 </thead>
                 <tbody>
-                  ${groupRows || `<tr><td colspan="8">لا يوجد أعضاء في هذه المجموعة</td></tr>`}
+                  ${groupRows || `<tr><td colspan="9">لا يوجد أعضاء في هذه المجموعة</td></tr>`}
                 </tbody>
               </table>
             </div>
@@ -807,6 +845,7 @@
       else if (vCourse === 'english') document.getElementById('editCourse').value = 'english';
       else document.getElementById('editCourse').value = 'both';
       document.getElementById('editPaid').value = (data.paid === 'yes' || data.paid === 'نعم') ? 'نعم' : 'لا';
+      document.getElementById('editDetails').value = data.details || '';
       document.getElementById('editModal').classList.remove('hide');
     }
     function closeEditModal() {
@@ -824,7 +863,8 @@
         address: document.getElementById('editAddress').value.trim(),
         phone: document.getElementById('editPhone').value.trim(),
         course: document.getElementById('editCourse').value,
-        paid: document.getElementById('editPaid').value
+        paid: document.getElementById('editPaid').value,
+        details: document.getElementById('editDetails').value.trim()
       };
       if (oldType === 'individual' && selectedGroup !== "individual") {
         await db.ref('individual_requests/' + key).remove();
@@ -843,6 +883,14 @@
       alert('تم حفظ التعديلات بنجاح');
       closeEditModal();
       loadDashboard();
+    }
+
+    // Escape HTML for details column
+    function escapeHtml(s) {
+      if (!s) return "";
+      return s.replace(/&/g, "&amp;").replace(/</g, "&lt;")
+              .replace(/>/g, "&gt;").replace(/"/g, "&quot;")
+              .replace(/'/g, "&#039;");
     }
 
     document.addEventListener("contextmenu", function (e) {
