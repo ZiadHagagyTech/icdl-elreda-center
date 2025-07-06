@@ -195,7 +195,7 @@
       display: block;
       margin-top: 7px;
     }
-    .form-block input:not([type="radio"]), .form-block select {
+    .form-block input:not([type="radio"]), .form-block select, .form-block textarea {
       width: 100%;
       padding: 13px 10px;
       margin-bottom: 16px;
@@ -208,7 +208,7 @@
       outline: none;
       box-shadow: none;
     }
-    .form-block input:focus, .form-block select:focus {
+    .form-block input:focus, .form-block select:focus, .form-block textarea:focus {
       border-color: var(--primary);
       box-shadow: 0 0 0 2px #2563eb1a;
     }
@@ -452,6 +452,9 @@
           <input type="radio" name="indCourse" value="English" id="indEnglish"> <label for="indEnglish">English</label>
           <input type="radio" name="indCourse" value="Both" id="indBoth"> <label for="indBoth">الاثنين معاً</label>
         </div>
+        <!-- حقل التفاصيل الجديد (اختياري) -->
+        <label for="indDetails"><i class="bi bi-info-circle"></i> تفاصيل إضافية (اختياري):</label>
+        <textarea id="indDetails" maxlength="300" rows="2" placeholder="اكتب أي تفاصيل إضافية إن وجدت"></textarea>
         <div class="form-actions">
           <input type="submit" class="btn-main" value="حجز">
         </div>
@@ -482,6 +485,9 @@
           <input type="radio" name="groupCourse" value="English" id="groupEnglish"> <label for="groupEnglish">English</label>
           <input type="radio" name="groupCourse" value="Both" id="groupBoth"> <label for="groupBoth">الاثنين معاً</label>
         </div>
+        <!-- حقل التفاصيل الجديد (اختياري) -->
+        <label for="groupDetails"><i class="bi bi-info-circle"></i> تفاصيل إضافية (اختياري):</label>
+        <textarea id="groupDetails" maxlength="300" rows="2" placeholder="اكتب أي تفاصيل إضافية إن وجدت"></textarea>
         <div class="form-actions">
           <input type="submit" class="btn-main" value="حجز">
         </div>
@@ -645,6 +651,7 @@
           phone: document.getElementById('indPhone').value.trim(),
           paid: document.getElementById('indPaid').value,
           course: document.querySelector('input[name="indCourse"]:checked')?.value || "",
+          details: document.getElementById('indDetails').value.trim() // حقل التفاصيل الجديد
         };
         if (!data.name || !data.address || !data.phone || !data.course)
           return alert("يرجى ملء جميع الحقول.");
@@ -671,6 +678,7 @@
           phone: document.getElementById('groupPhone').value.trim(),
           paid: document.getElementById('groupPaid').value,
           course: document.querySelector('input[name="groupCourse"]:checked')?.value || "",
+          details: document.getElementById('groupDetails').value.trim() // حقل التفاصيل الجديد
         };
         if (!data.name || !data.address || !data.phone || !data.course)
           return alert("يرجى ملء جميع الحقول.");
@@ -688,7 +696,8 @@
             address: data.address,
             phone: data.phone,
             paid: data.paid,
-            course: data.course
+            course: data.course,
+            details: data.details // حفظ التفاصيل في الطلب
           }).then(() => {
             showCenterMessage("تم حجزك في المجموعة بنجاح!");
             document.getElementById('groupForm').reset();
