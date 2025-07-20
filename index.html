@@ -21,6 +21,8 @@
       --shadow: 0 4px 20px #02204314;
       --radius: 16px;
       --transition: 0.2s all;
+      --nav-height: 62px;
+      --nav-bottom-height: 68px;
     }
     html, body {
       font-family: 'Cairo', 'Inter', Arial, sans-serif;
@@ -32,11 +34,12 @@
       box-sizing: border-box;
       scroll-behavior: smooth;
     }
-    .navbar {
+    /* Top Navbar for Desktop */
+    .navbar-top {
       background: var(--white);
       box-shadow: var(--shadow);
       padding: 0 24px;
-      height: 62px;
+      height: var(--nav-height);
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -44,8 +47,9 @@
       top: 0;
       z-index: 100;
       border-bottom: 1.5px solid var(--gray);
+      transition: all 0.18s;
     }
-    .navbar .logo {
+    .navbar-top .logo {
       font-family: 'Inter', 'Cairo', Arial, sans-serif;
       font-size: 1.25em;
       font-weight: bold;
@@ -55,11 +59,12 @@
       gap: 7px;
       letter-spacing: 1px;
     }
-    .navbar nav {
+    .navbar-top nav {
       display: flex;
       gap: 18px;
+      transition: all 0.18s;
     }
-    .navbar nav a {
+    .navbar-top nav a {
       color: var(--text);
       text-decoration: none;
       font-weight: 500;
@@ -68,13 +73,13 @@
       border-radius: 7px;
       transition: var(--transition);
     }
-    .navbar nav a:hover, .navbar nav a.active {
+    .navbar-top nav a:hover, .navbar-top nav a.active {
       background: var(--primary);
       color: var(--white);
     }
     .main-content {
       max-width: 510px;
-      margin: 44px auto 30px;
+      margin: 44px auto 90px;
       background: var(--white);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
@@ -340,6 +345,7 @@
       border-top-right-radius: 32px;
       box-shadow: 0 -2px 18px #02204310;
       margin-top: 40px;
+      margin-bottom: var(--nav-bottom-height);
     }
     footer .footer-links {
       margin-bottom: 8px;
@@ -369,23 +375,112 @@
       font-weight: 700;
       letter-spacing: 0.5px;
     }
+    /* --- Bottom Navigation Bar --- */
+    .navbar-bottom {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100vw;
+      height: var(--nav-bottom-height);
+      background: #fff;
+      box-shadow: 0 -2px 22px #02204329;
+      border-top-left-radius: 18px;
+      border-top-right-radius: 18px;
+      display: none;
+      justify-content: space-around;
+      align-items: center;
+      z-index: 9999;
+      padding: 0 3vw;
+    }
+    .navbar-bottom a {
+      flex: 1 1 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary-hover);
+      text-decoration: none;
+      font-size: 1em;
+      font-weight: 700;
+      transition: color 0.19s;
+      padding: 0;
+      position: relative;
+      height: 100%;
+    }
+    .navbar-bottom a.active, .navbar-bottom a:hover {
+      color: var(--accent);
+    }
+    .navbar-bottom i {
+      font-size: 1.65em;
+      margin-bottom: 3px;
+      display: block;
+    }
+    .navbar-bottom span {
+      font-size: 0.98em;
+      font-family: 'Cairo',sans-serif;
+      font-weight: 700;
+    }
+    /* Responsive: navbar on small screens */
+    @media (max-width: 700px) {
+      .navbar-top {
+        justify-content: center;
+        padding: 0 10px;
+      }
+      .navbar-top nav {
+        display: none !important;
+      }
+      .navbar-bottom {
+        display: flex;
+      }
+      .main-content {
+        margin-top: 22px;
+        margin-bottom: calc(var(--nav-bottom-height) + 24px);
+        border-radius: 16px;
+        padding-top: 19px;
+      }
+      .tab-nav {
+        margin-bottom: 22px;
+        border-radius: 12px;
+      }
+    }
+    @media (min-width: 701px) {
+      .navbar-bottom {
+        display: none !important;
+      }
+      .navbar-top nav {
+        display: flex !important;
+      }
+    }
     @media (max-width:900px){
       .main-content { max-width: 98vw;}
     }
     @media (max-width:600px) {
       .main-content { padding: 9vw 2vw 3vw 2vw; }
-      .navbar { padding: 0 3vw;}
       .main-content h2 { font-size: 1.18em;}
       .form-block { padding: 6vw 4vw;}
       .btns-row { flex-direction: column; gap:9px;}
       .form-title { font-size: 1em;}
       .tab-btn { padding: 11px 7vw 8px 7vw; font-size:1em;}
       .center-message { padding: 28px 5vw;}
+      .navbar-bottom {
+        height: 62px;
+        font-size: 0.93em;
+      }
+      .navbar-bottom i {
+        font-size: 1.3em;
+      }
     }
     @media (max-width:430px){
       .main-content { padding: 5vw 1vw 3vw 1vw;}
-      .navbar .logo { font-size: 1em;}
       .footer-links { flex-direction: column; gap:5px;}
+      .navbar-bottom span { font-size: 0.93em; }
+    }
+    @media (max-width:350px){
+      .navbar-bottom span { font-size: 0.75em; }
+      .main-content h2 { font-size: 1em;}
+    }
+    @media print {
+      .navbar-bottom { display: none !important; }
     }
   </style>
   <!-- Firebase -->
@@ -393,8 +488,8 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 </head>
 <body>
-  <!-- Navbar -->
-  <header class="navbar">
+  <!-- Top Navbar (always visible, but no links in mobile) -->
+  <header class="navbar-top">
     <div class="logo"><i class="bi bi-mortarboard-fill"></i> ICDL - Ziad Hagagy</div>
     <nav>
       <a href="./index.html" class="active">الرئيسية</a>
@@ -402,6 +497,22 @@
       <a href="./admin.html">الاحصائيات</a>
     </nav>
   </header>
+
+  <!-- Bottom Navigation Bar (mobile only) -->
+  <nav class="navbar-bottom">
+    <a href="./index.html" class="active">
+      <i class="bi bi-house-fill"></i>
+      <span>الرئيسية</span>
+    </a>
+    <a href="./search.html">
+      <i class="bi bi-search"></i>
+      <span>استعلام</span>
+    </a>
+    <a href="./admin.html">
+      <i class="bi bi-bar-chart-line-fill"></i>
+      <span>الاحصائيات</span>
+    </a>
+  </nav>
 
   <!-- Main Content -->
   <main class="main-content">
@@ -518,6 +629,22 @@
     </div>
     <div class="copy">جميع الحقوق محفوظة &copy; زياد حجاجي 2025</div>
   </footer>
+
+  <!-- Bottom Navigation Bar (mobile only) -->
+  <nav class="navbar-bottom">
+    <a href="./index.html" class="active">
+      <i class="bi bi-house-fill"></i>
+      <span>الرئيسية</span>
+    </a>
+    <a href="./search.html">
+      <i class="bi bi-search"></i>
+      <span>استعلام</span>
+    </a>
+    <a href="./admin.html">
+      <i class="bi bi-bar-chart-line-fill"></i>
+      <span>الاحصائيات</span>
+    </a>
+  </nav>
 
   <script>
     // Firebase config
@@ -729,12 +856,10 @@
       setTimeout(() => msgDiv.classList.add('hide'), 4000);
     }
 
-
     // تعطيل الزر الأيمن
-document.addEventListener("contextmenu", function (e) {
+    document.addEventListener("contextmenu", function (e) {
         e.preventDefault();
     });
-
     // تعطيل اختصارات F12 و Ctrl+Shift+I و Ctrl+Shift+J و Ctrl+U
     document.addEventListener("keydown", function (e) {
         if (e.key === "F12" || 
